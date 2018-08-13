@@ -4,6 +4,9 @@ namespace Laravel\Lumen\Exceptions;
 
 use Exception;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Symfony\Component\Debug\Exception\FlattenException;
+use Illuminate\Http\Response;
+use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
 
 class Handler implements ExceptionHandler
 {
@@ -16,6 +19,7 @@ class Handler implements ExceptionHandler
      */
     public function report(Exception $e)
     {
+        dd('Handler report');
         // TODO: Implement report() method.
     }
 
@@ -28,7 +32,12 @@ class Handler implements ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        // TODO: Implement render() method.
+        $fe = FlattenException::create($e);
+
+        $response = new Response('', $fe->getStatusCode(), $fe->getHeaders());
+        $response->exception = $e;
+
+        return $response;
     }
 
     /**

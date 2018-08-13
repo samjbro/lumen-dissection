@@ -2,6 +2,8 @@
 
 namespace Laravel\Lumen\Concerns;
 
+use Error;
+
 trait RegistersExceptionHandlers
 {
     protected function sendExceptionToHandler($e)
